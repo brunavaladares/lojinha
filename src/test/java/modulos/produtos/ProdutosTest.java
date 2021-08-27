@@ -1,5 +1,7 @@
 package modulos.produtos;
 
+import com.sun.xml.internal.ws.policy.AssertionSet;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -31,13 +33,20 @@ public class ProdutosTest {
         navegador.findElement(new By.ByCssSelector("button[type='submit']")).click();
 
         // Vou para a tela de registro de produto
+        navegador.findElement(By.linkText("ADICIONAR PRODUTO")).click();
 
+        // Vou preenchr dados do produto e o valor vai ser igual a 0
+        navegador.findElement(By.id("produtonome")).sendKeys("Mackbook Pro");
+        navegador.findElement(By.id("produtovalor")).sendKeys("000");
+        navegador.findElement(By.id("produtocores")).sendKeys("preto,branco");
 
+        //Vou submeter o formulário
+        navegador.findElement(new By.ByCssSelector("button[type='submit']")).click();
 
-        // Vo submeter o formulário
+        //Vou validar que a mensagem de erro foi apresentada
+        String mensagemToast = navegador.findElement(new By.ByCssSelector(".toast.rounded")).getText();
+        Assertions.assertEquals("O valor do produto deve estar entre R$ 0,01 e R$ 7.000,00", mensagemToast);
 
-
-        // Vou validar que a mensagem de erro foi apresentada
 
     }
 
